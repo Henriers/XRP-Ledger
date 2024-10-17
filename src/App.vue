@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <h1 class="title">XRP Account Viewer</h1>
-    <AccountInput @fetch-account-info="getAccountInfo" />
+    <AccountInput @fetch-info="getAccountInfo" />
     <AccountInfo 
       :accountData="accountData" 
       :transactions="transactions" 
@@ -16,6 +16,7 @@ import AccountInput from './components/AccountInput.vue';
 import AccountInfo from './components/AccountInfo.vue';
 
 const { accountData, transactions, loading, getAccountInfo } = useXrpAccount();
+
 </script>
 
 <style>

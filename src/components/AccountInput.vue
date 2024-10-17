@@ -2,7 +2,7 @@
   <div>
     <h2>Check XRP Account:</h2>
     <input v-model="account" placeholder="XRP Account Address" />
-    <button @click="fetchAccountInfo">Fetch Info</button>
+    <button @click="fetchInfo">Fetch Info</button>
     <p v-if="error" class="error">{{ error }}</p>
   </div>
 </template>
@@ -13,11 +13,11 @@ import { ref } from 'vue';
 const account = ref('');
 const error = ref('');
 
-const emit = defineEmits(['fetch-account-info']);
+const emit = defineEmits(['fetch-info']);
 
-const fetchAccountInfo = () => {
+const fetchInfo = () => {
   if (account.value) {
-    emit('fetch-account-info', account.value);
+    emit('fetch-info', account.value);
     error.value = '';
   } else {
     error.value = 'Please enter a valid account address.';
