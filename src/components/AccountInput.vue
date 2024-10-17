@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Enter XRP Account Address</h2>
+    <h2>Check XRP Account:</h2>
     <input v-model="account" placeholder="XRP Account Address" />
     <button @click="fetchAccountInfo">Fetch Info</button>
     <p v-if="error" class="error">{{ error }}</p>
@@ -28,5 +28,10 @@ const fetchAccountInfo = () => {
 <style scoped>
 .error {
   color: red;
+}
+h2 {
+  font-size: 2em;
+  margin: 0;
+  color: black;
 }
 </style>

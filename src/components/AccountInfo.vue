@@ -1,27 +1,31 @@
 <template>
-  <div>
+  <div class="account-info">
     <h2>Account Information</h2>
-    <div v-if="accountData">
+    <div v-if="accountData" class="account-details">
       <p>Address: {{ accountData.account }}</p>
-      <p>Balance: {{ accountData.balance }} XRP</p>
+      <p>Balance: {{ accountData.balance.toFixed(2) }} XRP</p>
       <h3>Transaction History</h3>
-      <ul v-if="transactions.length > 0">
-        <li v-for="tx in transactions" :key="tx.hash">
-          Transaction Type: {{ tx.tx_json.TransactionType }} <br />
-          Amount:
-          {{ tx.tx_json.LimitAmount ? (tx.tx_json.LimitAmount.value + " " + tx.tx_json.LimitAmount.currency || 'XRP') : (tx.tx_json.DeliverMax / 1000000) + ' XRP' }}<br />
-          Fee: {{ (tx.tx_json.Fee / 1000000 ) }} XRP <br />
-          Hash: {{ tx.hash }} <br />
-          Close Time: {{ tx.close_time_iso.toLocaleDateString() }} <br />
-
+      <ul v-if="transactions.length > 0" class="transaction-list">
+        <li v-for="tx in transactions" :key="tx.hash" class="transaction-item">
+          <div>Transaction Type: {{ tx.tx_json.TransactionType }}</div>
+          <div>
+            Amount:
+            {{ tx.tx_json.LimitAmount 
+              ? (tx.tx_json.LimitAmount.value + " " + tx.tx_json.LimitAmount.currency) 
+              : (tx.tx_json.DeliverMax / 1000000) + ' XRP' }}
+          </div>
+          <div>Fee: {{ (tx.tx_json.Fee / 1000000).toFixed(6) }} XRP</div>
+          <div>Hash: {{ tx.hash }}</div>
+          <div>Close Time: {{ new Date(tx.close_time_iso).toLocaleString() }}</div>
         </li>
       </ul>
       <p v-else>No transactions available.</p>
     </div>
     <p v-else-if="loading">Loading...</p>
-    <p v-else>If you enter an address, account information will be displayed here.</p>
+    <p v-else class="placeholder">If you enter an address, account information will be displayed here.</p>
   </div>
 </template>
+
 
 
 <script setup lang="ts">
@@ -53,17 +57,40 @@ const props = defineProps<{
 </script>
 
 <style scoped>
-h2 {
-  margin-bottom: 10px;
+.account-info {
+  font-family: Arial, sans-serif;
+  color: #333;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  max-width: 600px;
+  margin: 0 auto;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
-ul {
+
+h2 {
+  margin-bottom: 15px;
+  font-size: 24px;
+}
+
+.account-details {
+  margin-bottom: 20px;
+}
+
+.transaction-list {
   list-style-type: none;
   padding: 0;
+  text-overflow: ellipsis;
 }
-li {
-  margin-bottom: 15px;
-  border: 1px;
-  background-color: white;
-  color: black
+
+.transaction-item {
+  padding: 15px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  background-color: #fff;
+  margin-bottom: 10px;
+  transition: background-color 0.3s;
 }
 </style>
+

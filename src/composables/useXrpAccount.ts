@@ -70,7 +70,7 @@ export const useXrpAccount = () => {
         account: account,
         ledger_index_min: -1,
         ledger_index_max: -1,
-        limit: 20,
+        limit: 15,
       });
 
       console.log(transactionsResponse);

@@ -1,6 +1,6 @@
 <template>
-  <div id="app">
-    <h1>XRP Account Viewer</h1>
+  <div class="app-container">
+    <h1 class="title">XRP Account Viewer</h1>
     <AccountInput @fetch-account-info="getAccountInfo" />
     <AccountInfo 
       :accountData="accountData" 
@@ -19,8 +19,28 @@ const { accountData, transactions, loading, getAccountInfo } = useXrpAccount();
 </script>
 
 <style>
-#app {
+body {
+  background-color: #f0f0f0;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  color: black;
+  margin-bottom: 20px;
+  font-size: 28px;
   text-align: center;
-  margin: 20px;
+}
+
+h1 {
+  font-size: 2em;
+  margin: 0;
+}
+
+p {
+  margin: 10px 0;
 }
 </style>
