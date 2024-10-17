@@ -5,28 +5,36 @@
       <p>Address: {{ accountData.account }}</p>
       <p>Balance: {{ accountData.balance.toFixed(2) }} XRP</p>
       <h3>Transaction History</h3>
-      <ul v-if="transactions.length > 0" class="transaction-list">
-        <li v-for="tx in transactions" :key="tx.hash" class="transaction-item">
-          <div>Transaction Type: {{ tx.tx_json.TransactionType }}</div>
-          <div>
-            Amount:
-            {{ tx.tx_json.LimitAmount 
-              ? (tx.tx_json.LimitAmount.value + " " + tx.tx_json.LimitAmount.currency) 
-              : (tx.tx_json.DeliverMax / 1000000) + ' XRP' }}
-          </div>
-          <div>Fee: {{ (tx.tx_json.Fee / 1000000).toFixed(6) }} XRP</div>
-          <div>Hash: {{ tx.hash }}</div>
-          <div>Close Time: {{ new Date(tx.close_time_iso).toLocaleString() }}</div>
-        </li>
-      </ul>
+      <table v-if="transactions.length > 0" class="transaction-table">
+        <thead>
+          <tr>
+            <th>Transaction Type</th>
+            <th>Amount</th>
+            <th>Fee</th>
+            <th>Hash</th>
+            <th>Close Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="tx in transactions" :key="tx.hash" class="transaction-item">
+            <td>{{ tx.tx_json.TransactionType }}</td>
+            <td>
+              {{ tx.tx_json.LimitAmount 
+                ? (tx.tx_json.LimitAmount.value + " " + tx.tx_json.LimitAmount.currency) 
+                : (tx.tx_json.DeliverMax / 1000000) + ' XRP' }}
+            </td>
+            <td>{{ (tx.tx_json.Fee / 1000000).toFixed(6) }} XRP</td>
+            <td>{{ tx.hash }}</td>
+            <td>{{ new Date(tx.close_time_iso).toLocaleString() }}</td>
+          </tr>
+        </tbody>
+      </table>
       <p v-else>No transactions available.</p>
     </div>
     <p v-else-if="loading">Loading...</p>
     <p v-else class="placeholder">If you enter an address, account information will be displayed here.</p>
   </div>
 </template>
-
-
 
 <script setup lang="ts">
 
@@ -57,40 +65,21 @@ const props = defineProps<{
 </script>
 
 <style scoped>
-.account-info {
-  font-family: Arial, sans-serif;
-  color: #333;
-  padding: 20px;
+.transaction-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.transaction-table th, .transaction-table td {
   border: 1px solid #ddd;
-  border-radius: 8px;
-  background-color: #f9f9f9;
-  max-width: 600px;
-  margin: 0 auto;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 8px;
+  text-align: left;
 }
 
-h2 {
-  margin-bottom: 15px;
-  font-size: 24px;
+.transaction-table th {
+  background-color: #f2f2f2;
 }
 
-.account-details {
-  margin-bottom: 20px;
-}
-
-.transaction-list {
-  list-style-type: none;
-  padding: 0;
-  text-overflow: ellipsis;
-}
-
-.transaction-item {
-  padding: 15px;
-  border: 1px solid #eee;
-  border-radius: 5px;
-  background-color: #fff;
-  margin-bottom: 10px;
-  transition: background-color 0.3s;
-}
 </style>
 
